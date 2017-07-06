@@ -31,7 +31,7 @@ def motor(anticlockwise): #Run the motor for an "instant"
                 GPIO.output(pin, True)
             else:
                 GPIO.output(pin, False)
-            time.sleep(0.001)
+            time.sleep(0.01)
     if (anticlockwise):
         motorStepSequence.reverse() #Put it back!
 
