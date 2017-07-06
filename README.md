@@ -1,1 +1,1 @@
-# Projector-Cover
+# Raspberry Pi Zero W powered Projector Cover
