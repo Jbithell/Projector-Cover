@@ -11,7 +11,7 @@ for pin in motorGpioPins:
     GPIO.output(pin, False)
 
 #http://www.bitsbox.co.uk/data/motor/Stepper.pdf - Each step is a list containing GPIO pins that should be set to High
-motorStepSequence = range(0, 8)
+motorStepSequence = list(range(0, 8))
 motorStepSequence[0] = [motorGpioPins[0]]
 motorStepSequence[1] = [motorGpioPins[0], motorGpioPins[1]]
 motorStepSequence[2] = [motorGpioPins[1]]
