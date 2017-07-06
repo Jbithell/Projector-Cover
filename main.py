@@ -21,7 +21,7 @@ motorStepSequence[5] = [motorGpioPins[2], motorGpioPins[3]]
 motorStepSequence[6] = [motorGpioPins[3]]
 motorStepSequence[7] = [motorGpioPins[3], motorGpioPins[0]]
 
-def motor(anticlockwise):
+def motor(anticlockwise): #Run the motor for an "instant"
     global motorGpioPins, motorStepSequence
     if (anticlockwise):
         motorStepSequence.reverse()
