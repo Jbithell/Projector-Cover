@@ -8,7 +8,7 @@ import RPi.GPIO as GPIO
 # instead of physical pin numbers
 GPIO.setmode(GPIO.BCM)
 
-StepPins = [17, 18, 27, 22]
+StepPins = [18,23,24,25]
 
 # Set all pins as output
 for pin in StepPins:
@@ -33,7 +33,7 @@ StepDir = 1  # Set to 1 or 2 for clockwise
 # Set to -1 or -2 for anti-clockwise
 
 # Read wait time from command line
-WaitTime = 10 / float(1000)
+WaitTime = 40 / float(1000)
 
 # Initialise variables
 StepCounter = 0
