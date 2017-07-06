@@ -12,14 +12,14 @@ for pin in motorGpioPins:
 
 #http://www.bitsbox.co.uk/data/motor/Stepper.pdf - Each step is a list containing GPIO pins that should be set to High
 motorStepSequence = range(0, 8)
-motorStepSequence[0] = [GpioPins[0]]
-motorStepSequence[1] = [GpioPins[0], GpioPins[1]]
-motorStepSequence[2] = [GpioPins[1]]
-motorStepSequence[3] = [GpioPins[1], GpioPins[2]]
-motorStepSequence[4] = [GpioPins[2]]
-motorStepSequence[5] = [GpioPins[2], GpioPins[3]]
-motorStepSequence[6] = [GpioPins[3]]
-motorStepSequence[7] = [GpioPins[3], GpioPins[0]]
+motorStepSequence[0] = [motorGpioPins[0]]
+motorStepSequence[1] = [motorGpioPins[0], motorGpioPins[1]]
+motorStepSequence[2] = [motorGpioPins[1]]
+motorStepSequence[3] = [motorGpioPins[1], motorGpioPins[2]]
+motorStepSequence[4] = [motorGpioPins[2]]
+motorStepSequence[5] = [motorGpioPins[2], motorGpioPins[3]]
+motorStepSequence[6] = [motorGpioPins[3]]
+motorStepSequence[7] = [motorGpioPins[3], motorGpioPins[0]]
 
 def motor(anticlockwise):
     global motorGpioPins, motorStepSequence
