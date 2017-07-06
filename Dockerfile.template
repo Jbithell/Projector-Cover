@@ -8,6 +8,7 @@ FROM resin/%%RESIN_MACHINE_NAME%%-debian
     python3-tk \
     python3-setuptools \
     python3-rpi.gpio \
+    python3-serial \
     libfreetype6-dev \
     rpl \
     git
