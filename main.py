@@ -3,7 +3,7 @@ import time
 
 #           BUTTONS
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 #           STEPPER MOTOR
 motorGpioPins = [17, 18, 27, 22] #17 = 1 etc.
 for pin in motorGpioPins:
