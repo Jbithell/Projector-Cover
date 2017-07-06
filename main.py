@@ -14,15 +14,11 @@ for pin in motorGpioPins:
     GPIO.output(pin, False)
 
 #http://www.bitsbox.co.uk/data/motor/Stepper.pdf - Each step is a list containing GPIO pins that should be set to High
-motorStepSequence = list(range(0, 8))
+motorStepSequence = list(range(0, 4))
 motorStepSequence[0] = [1,0,0,0]
-motorStepSequence[1] = [1,1,0,0]
-motorStepSequence[2] = [0,1,0,0]
-motorStepSequence[3] = [0,1,1,0]
-motorStepSequence[4] = [0,0,1,0]
-motorStepSequence[5] = [0,0,1,1]
-motorStepSequence[6] = [0,0,0,1]
-motorStepSequence[7] = [1,0,0,1]
+motorStepSequence[1] = [0,1,0,0]
+motorStepSequence[2] = [0,0,1,0]
+motorStepSequence[3] = [0,0,0,1]
 motorStepCount = 0
 
 #                                                                  LCD
@@ -44,10 +40,10 @@ def motor(anticlockwise): #Run the motor for an "instant"
         motorStepCount += 1
 
     #Reset the counter if we get to end
-    if (motorStepCount == 8):
+    if (motorStepCount == 4):
         motorStepCount = 0
     if (motorStepCount < 0):
-        motorStepCount = 9
+        motorStepCount = 4
 
 
     if (anticlockwise):
