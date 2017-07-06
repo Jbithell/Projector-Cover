@@ -53,6 +53,8 @@ def motor(anticlockwise): #Run the motor for an "instant"
     if (anticlockwise):
         motorStepSequence.reverse() #Put it back!
 
+    time.sleep(0.0015)
+
 while True:
     input_state = GPIO.input(23)
     if input_state == False:
