@@ -27,9 +27,9 @@ motorStepCount = 0
 
 #                                                                  LCD
 ser = serial.Serial('/dev/ttyUSB0', 9600, timeout=0.5)
-ser.write('testtesttest$$')
+ser.write(('testtesttest$').encode('utf-8'))
 time.sleep(5)
-ser.write('Hi$')
+ser.write(('Hi$').encode('utf-8'))
 
 def motor(anticlockwise): #Run the motor for an "instant"
     global motorGpioPins, motorStepSequence, motorStepCount
