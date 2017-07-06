@@ -1,58 +1,68 @@
-import RPi.GPIO as GPIO #Motor/Buttons
+#!/usr/bin/python
+# Import required libraries
+import sys
 import time
-import serial #LCD
+import RPi.GPIO as GPIO
 
-GPIO.cleanup()
+# Use BCM GPIO references
+# instead of physical pin numbers
 GPIO.setmode(GPIO.BCM)
 
-#                                                               BUTTONS
-GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-#                                                               STEPPER MOTOR
-motorGpioPins = [17, 18, 27, 22] #17 = 1 etc.
-for pin in motorGpioPins:
+StepPins = [17, 18, 27, 22]
+
+# Set all pins as output
+for pin in StepPins:
+    print
+    "Setup pins"
     GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, False)
 
-#http://www.bitsbox.co.uk/data/motor/Stepper.pdf - Each step is a list containing GPIO pins that should be set to High
-motorStepSequence = list(range(0, 4))
-motorStepSequence[0] = [1,0,0,0]
-motorStepSequence[1] = [0,1,0,0]
-motorStepSequence[2] = [0,0,1,0]
-motorStepSequence[3] = [0,0,0,1]
-motorStepCount = 0
+# Define advanced sequence
+# as shown in manufacturers datasheet
+Seq = [[1, 0, 0, 1],
+       [1, 0, 0, 0],
+       [1, 1, 0, 0],
+       [0, 1, 0, 0],
+       [0, 1, 1, 0],
+       [0, 0, 1, 0],
+       [0, 0, 1, 1],
+       [0, 0, 0, 1]]
 
-#                                                                  LCD
-ser = serial.Serial('/dev/ttyUSB0', 9600, timeout=0.5)
-ser.write(('testtesttest$').encode('utf-8'))
-time.sleep(5)
-ser.write(('Hi$').encode('utf-8'))
+StepCount = len(Seq)
+StepDir = 1  # Set to 1 or 2 for clockwise
+# Set to -1 or -2 for anti-clockwise
 
-def motor(anticlockwise): #Run the motor for an "instant"
-    global motorGpioPins, motorStepSequence, motorStepCount
-    if (anticlockwise):
-        motorStepSequence.reverse()
+# Read wait time from command line
+WaitTime = 10 / float(1000)
+
+# Initialise variables
+StepCounter = 0
+
+# Start main loop
+while True:
+
+    print
+    StepCounter,
+    print
+    Seq[StepCounter]
+
     for pin in range(0, 4):
-        xpin = motorGpioPins[pin]
-        if motorStepSequence[motorStepCount][pin] != 0:
+        xpin = StepPins[pin]  # Get GPIO
+        if Seq[StepCounter][pin] != 0:
+            print
+            " Enable GPIO %i" % (xpin)
             GPIO.output(xpin, True)
         else:
             GPIO.output(xpin, False)
-        motorStepCount += 1
 
-    #Reset the counter if we get to end
-    if (motorStepCount == 4):
-        motorStepCount = 0
-    if (motorStepCount < 0):
-        motorStepCount = 4
+    StepCounter += StepDir
 
+    # If we reach the end of the sequence
+    # start again
+    if (StepCounter >= StepCount):
+        StepCounter = 0
+    if (StepCounter < 0):
+        StepCounter = StepCount + StepDir
 
-    if (anticlockwise):
-        motorStepSequence.reverse() #Put it back!
-
-    time.sleep(0.0015)
-
-while True:
-    input_state = GPIO.input(23)
-    if input_state == False:
-        print('Button Pressed')
-        motor(False)
+    # Wait before moving on
+    time.sleep(WaitTime)
