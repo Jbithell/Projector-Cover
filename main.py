@@ -10,17 +10,16 @@
 from time import sleep
 import RPi.GPIO as GPIO
 
+
 class Motor(object):
     def __init__(self, pins, mode=3):
         """Initialise the motor object.
-
         pins -- a list of 4 integers referring to the GPIO pins that the IN1, IN2
                 IN3 and IN4 pins of the ULN2003 board are wired to
         mode -- the stepping mode to use:
                 1: wave drive (not yet implemented)
                 2: full step drive
                 3: half step drive (default)
-
         """
         self.P1 = pins[0]
         self.P2 = pins[1]
@@ -52,11 +51,15 @@ class Motor(object):
         steps = (steps % self.steps_per_rev)
         if steps > self.steps_per_rev / 2:
             steps -= self.steps_per_rev
+            print
+            "moving " + `steps` + " steps"
             if self.mode == 2:
                 self._move_acw_2(-steps / 8)
             else:
                 self._move_acw_3(-steps / 8)
         else:
+            print
+            "moving " + `steps` + " steps"
             if self.mode == 2:
                 self._move_cw_2(steps / 8)
             else:
@@ -144,8 +147,10 @@ class Motor(object):
 
 if __name__ == "__main__":
     GPIO.setmode(GPIO.BOARD)
-    m = Motor([18,22,24,26])
+    m = Motor([18, 22, 24, 26])
     m.rpm = 5
+    print
+    "Pause in seconds: " + `m._T`
     m.move_to(90)
     sleep(1)
     m.move_to(0)
