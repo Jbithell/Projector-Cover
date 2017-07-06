@@ -11,7 +11,8 @@ FROM resin/%%RESIN_MACHINE_NAME%%-debian
     python3-serial \
     libfreetype6-dev \
     rpl \
-    git
+    git \
+    nano
 
 
 # Install Pip 
