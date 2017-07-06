@@ -1,8 +1,11 @@
-import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO #Motor/Buttons
 import time
-import serial
-#                                                               BUTTONS
+import serial #LCD
+
+GPIO.cleanup()
 GPIO.setmode(GPIO.BCM)
+
+#                                                               BUTTONS
 GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 #                                                               STEPPER MOTOR
 motorGpioPins = [17, 18, 27, 22] #17 = 1 etc.
@@ -12,14 +15,15 @@ for pin in motorGpioPins:
 
 #http://www.bitsbox.co.uk/data/motor/Stepper.pdf - Each step is a list containing GPIO pins that should be set to High
 motorStepSequence = list(range(0, 8))
-motorStepSequence[0] = [motorGpioPins[0]]
-motorStepSequence[1] = [motorGpioPins[0], motorGpioPins[1]]
-motorStepSequence[2] = [motorGpioPins[1]]
-motorStepSequence[3] = [motorGpioPins[1], motorGpioPins[2]]
-motorStepSequence[4] = [motorGpioPins[2]]
-motorStepSequence[5] = [motorGpioPins[2], motorGpioPins[3]]
-motorStepSequence[6] = [motorGpioPins[3]]
-motorStepSequence[7] = [motorGpioPins[3], motorGpioPins[0]]
+motorStepSequence[0] = [1,0,0,0]
+motorStepSequence[1] = [1,1,0,0]
+motorStepSequence[2] = [0,1,0,0]
+motorStepSequence[3] = [0,1,1,0]
+motorStepSequence[4] = [0,0,1,0]
+motorStepSequence[5] = [0,0,1,1]
+motorStepSequence[6] = [0,0,0,1]
+motorStepSequence[7] = [1,0,0,1]
+motorStepCount = 0
 
 #                                                                  LCD
 ser = serial.Serial('/dev/tty.usbserial', 9600, timeout=0.5)
@@ -28,16 +32,24 @@ time.sleep(5)
 ser.write('Hi$')
 
 def motor(anticlockwise): #Run the motor for an "instant"
-    global motorGpioPins, motorStepSequence
+    global motorGpioPins, motorStepSequence, motorStepCount
     if (anticlockwise):
         motorStepSequence.reverse()
-    for pinList in motorStepSequence:
-        for pin in motorGpioPins:
-            if pin in pinList:
-                GPIO.output(pin, True)
-            else:
-                GPIO.output(pin, False)
-            time.sleep(0.0001)
+    for pin in range(0, 4):
+        xpin = motorGpioPins[pin]
+        if motorStepSequence[motorStepCount][pin] != 0:
+            GPIO.output(xpin, True)
+        else:
+            GPIO.output(xpin, False)
+        motorStepCount += 1
+
+    #Reset the counter if we get to end
+    if (motorStepCount == 8):
+        motorStepCount = 0
+    if (motorStepCount < 0):
+        motorStepCount = 9
+
+
     if (anticlockwise):
         motorStepSequence.reverse() #Put it back!
 
