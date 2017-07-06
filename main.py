@@ -36,8 +36,7 @@ def motor(anticlockwise): #Run the motor for an "instant"
         motorStepSequence.reverse() #Put it back!
 
 while True:
-    input_state = GPIO.input(18)
+    input_state = GPIO.input(23)
     if input_state == False:
         print('Button Pressed')
         motor(False)
-        time.sleep(0.2)
