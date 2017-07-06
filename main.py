@@ -26,7 +26,7 @@ motorStepSequence[7] = [1,0,0,1]
 motorStepCount = 0
 
 #                                                                  LCD
-ser = serial.Serial('/dev/tty.usbserial', 9600, timeout=0.5)
+ser = serial.Serial('/dev/ttyUSB0', 9600, timeout=0.5)
 ser.write('testtesttest$$')
 time.sleep(5)
 ser.write('Hi$')
